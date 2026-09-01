@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        jdk 'JDK17'
+        jdk 'JDK21'
         maven 'Maven3'
     }
 
@@ -17,7 +17,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'mvn clean package -DskipTests'
+                sh 'mvn clean compile'
             }
         }
 
@@ -29,18 +29,24 @@ pipeline {
 
         stage('Package') {
             steps {
-                sh 'mvn package'
+                sh 'mvn clean package -DskipTests'
             }
         }
     }
 
     post {
         success {
-            echo 'Build completed successfully!'
+            echo 'Java 21 build successful!'
         }
 
         failure {
-            echo 'Build failed!'
+            echo 'Java 21 build failed!'
+        }
+
+        always {
+            echo 'Pipeline completed.'
         }
     }
 }
+
+ 
